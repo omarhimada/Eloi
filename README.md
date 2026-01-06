@@ -1,4 +1,4 @@
-﻿# Document Ingest (Ollama + SQLite RAG)
+﻿# Document Ingest (OLLama + SQLite RAG)
 
 **A friend of mine needed a lawyer - so I hooked him up with his own personal lawyer for free. It uses OLLama and a local SQLite RAG system. I think he found it more funny than useful. Although it was a fun experiment.**
 
