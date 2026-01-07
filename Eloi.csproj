@@ -16,6 +16,9 @@
 	<Content Include="eloi_Modelfile">
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</Content>
+	<Content Include="EXAMPLE_eloi_Modelfile">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
 	<Content Include="Properties\launchSettings.json" />
 	<Content Include="README.md">
 	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
