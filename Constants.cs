@@ -7,8 +7,8 @@
         public const string _appSettingsMemoriesSection = "Memories";
         public const string _applicationJsonContentType = "application/json";
 
-        public const string _localEloiUrl = "http://127.0.0.1:11434";
         public const string _localEloiApiGenerateUri = "/api/generate";
+        public const string _localEloiApiEmbedUri = "/api/embed";
         public const string _localEloiApiChatUri = "/api/chat";
 
         public const string _ollamaExecutableName = "ollama";
@@ -16,7 +16,6 @@
 
         public const string _dot = " ⋅ ";
 
-        public const string _nomicEmbedText = "nomic-embed-text";
         public const string _hashedModelfile = ".eloi_modelfile.hash";
 
         public static class Web {

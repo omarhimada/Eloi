@@ -12,18 +12,20 @@
 <RadzenContent Container="main">
     <RadzenStack Gap="12px">
         <RadzenCard>
-            <RadzenText TextStyle="TextStyle.H4">Document Ingest</RadzenText>
-            <RadzenText TextStyle="TextStyle.Subtitle2">
-                Bulk upload PDFs, add URLs, or pull from Google Drive/Docs (scaffold).
+            <RadzenText TextStyle="TextStyle.H2">Eloi</RadzenText>
+            <RadzenText TextStyle="TextStyle.Subtitle1">
+                Ollama + Gemma3-4 + Custom Modelfile + Retrieval Augmentation + SQLite
             </RadzenText>
         </RadzenCard>
 
         <RadzenTabs>
             <Tabs>
                 <RadzenTabsItem Text="Chat">
-                    <RadzenTextArea @bind-Value="Question" Style="width: 100%; height: 120px" />
-                    <RadzenButton Text="Ask" Click="@Ask" />
-                    <pre style="white-space:pre-wrap">@Answer</pre>
+                    <RadzenTextArea @bind-Value="Question" Style="border-radius: 0; width: 100%; height: 20vw; resize: none;" />
+                    <RadzenButton Text="Chat" Disabled="@Loading" Click="@Ask" />
+                    <RadzenMarkdown Style="height: 40vw;">
+                        @Answer
+                    </RadzenMarkdown>
                 </RadzenTabsItem>
 
                 <RadzenTabsItem Text="Upload PDFs">
@@ -222,14 +224,18 @@
     [Inject] private NotificationService Notifications { get; set; } = default!;
     [Inject] private IDocumentIngestService IngestService { get; set; } = default!;
 
+    public bool Loading = false;
+
     public string Url { get; set; } = "";
     public string Question { get; set; } = "";
     public string Answer { get; set; } = "";
     public string Status { get; set; } = "";
 
     async Task Ask() {
-        Answer = "";
+        Loading = true;
+        Answer = string.Empty;
         Answer = await RetrievalAugmentService.AskAsync(Question, CancellationToken.None);
+        Loading = false;
     }
 
     private readonly List<UploadItem> _stagedUploads = new();

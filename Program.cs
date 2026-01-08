@@ -16,19 +16,29 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddRadzenComponents();
 
+
+var section = builder.Configuration.GetSection(_eloiSettingsSection);
+EloiSettings settings = new() {
+    BaseUrl = section["BaseUrl"] ?? string.Empty,
+    ChatModel = section["ChatModel"] ?? string.Empty,
+    EloiModelfile = section["EloiModelfile"] ?? string.Empty,
+    EmbedModel = section["EmbedModel"] ?? string.Empty,
+    Memories = section["Memories"] ?? string.Empty
+};
+builder.Services.AddSingleton(settings);
+
 builder.Services.AddHttpClient<EloiClient>(http => {
-    http.BaseAddress = new Uri(_localEloiUrl);
+    http.BaseAddress = new Uri(settings.BaseUrl);
     http.Timeout = Timeout.InfiniteTimeSpan; // streaming safety
 });
 
 builder.Services.AddLogging();
 
 builder.Services.AddSingleton<RetrievalAugmentService>();
+builder.Services.AddSingleton<KnowledgeIngestor>();
 builder.Services.AddSingleton<BookLover>();
 builder.Services.AddSingleton<RetrievalAugmentService>();
 builder.Services.AddSingleton<IDocumentIngestService, DocumentIngestService>();
-
-builder.Services.Configure<Settings>(builder.Configuration.GetSection(_eloiSettingsSection));
 
 builder.Services.AddHostedService<EnsureOllamaBuildsEloiService>();
 

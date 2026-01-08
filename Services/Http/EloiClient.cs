@@ -1,20 +1,15 @@
 ﻿using Eloi.Models;
 using Eloi.Models.Classes;
 using Ollama;
-using OllamaSharp;
-using OllamaSharp.Models;
-using System;
-using System.Net.Http.Headers;
-using System.Text.Json;
 
 namespace Eloi.Services.Http {
     public sealed class EloiClient {
         private readonly HttpClient _http;
-        private readonly Settings _opt;
+        private readonly EloiSettings _settings;
 
-        public EloiClient(HttpClient http, Settings opt) {
+        public EloiClient(HttpClient http, EloiSettings settings) {
             _http = http;
-            _opt = opt;
+            _settings = settings;
         }
 
         public async Task<EloiResponse?> UpsertChunkAsync(EloiRequest request, CancellationToken cancellationToken) {
@@ -57,8 +52,8 @@ namespace Eloi.Services.Http {
         }
 
         public async Task<float[]> EmbedAsync(string text, CancellationToken ct) {
-            var req = new { model = _opt.EmbedModel, input = text };
-            using HttpResponseMessage resp = await _http.PostAsJsonAsync("/api/embeddings", req, ct);
+            var req = new { model = _settings.EmbedModel, input = text };
+            using HttpResponseMessage resp = await _http.PostAsJsonAsync(Constants._localEloiApiEmbedUri, req, ct);
             resp.EnsureSuccessStatusCode();
 
             EmbedResponse? json = await resp.Content.ReadFromJsonAsync<EmbedResponse>(cancellationToken: ct);
