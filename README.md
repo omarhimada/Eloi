@@ -1,23 +1,29 @@
-﻿# LLM (OLLama + Gemma3-4 + SQLite RAG)
-## With a Blazor UI.
+﻿# Eloi
+## LLM (OLLama + Gemma3-4 + SQLite RAG)
 
-Starting the Blazor app will simultaneously create the `Ollama` process, and will look for the `eloi_Modelfile` for building on top of `Gemma3-4`. The first time that happens might take a while. The subsequent startups will be quicker due to a hashing mechanism.
+- Eloi is a combination of Ollama customization and Google's Gemma3-4, a powerful open-source LLM that can be run locally. 
+- This project leverages Eloi for generating responses based on the context retrieved from your documents and includes `eloi_Modelfile` for additional customization and fine-tuning.
 
-Ingests documents into a **SQLite-backed RAG** store and queries them with `Ollama` + `Gemma3-4` + your own customized `eloi_Modelfile`. 
-Customize the `eloi_Modelfile` to your liking.
+- Starting the application will simultaneously start the `ollama` process as a sidecar, while checking for updates to the `eloi_Modelfile` to build on top of `Gemma3-4`. 
+- The first time run takes some time, however subsequent startups will be quicker due to a hashing mechanism (e.g.: `eloi_Modelfile.hash`), so it doesn't rebuild the model if there are no changes.
 
-Upload **multiple PDFs at once**, add **URLs**, and (optionally) pull from **Google Drive / Google Docs** (scaffold/integration-ready). 
-Built with the Radzen & Blazor combo has been great for UI/UX.
+- You can give Eloi documents (PDFs, URLs) to learn from. She'll ingest them to a local **SQLite-backed RAG** store and queries them with `Ollama` + `Gemma3-4` + your own customized `eloi_Modelfile`. Before giving you a response. 
+- Customize the `eloi_Modelfile` to your liking *(more personable, professional, technical, etc.).* An example is included, you have to rename it once you clone the repository.
+
 ---
 
-This project turns “a pile of PDFs (and links)” into a searchable, chunked knowledge base:
+### Business Use Cases
 
-1. **Chat**: pulls context from the information you've taught her before responding.
-1. **Ingest**: PDFs / URLs / Google Docs → extract text → chunk → embed → store in SQLite  
-2. **Retrieve**: semantic search over embeddings + metadata filters  
-3. **Generate**: send the retrieved context to an Ollama model for grounded answers
+- Upload **multiple PDFs at once**, add **URLs**, and (optionally) pull from **Google Drive / Google Docs** (scaffold/integration-ready). 
+- You can teach Eloi with your own documents (e.g.: thousand page PDF documents on medcine, local laws, etc.) for your small business.
 
-![Example Image](example.png)
+1. *Personal assistant that doesn't require the internet.*
+2. **Chat**: pulls context from the information you've taught her before responding.
+3. **Ingest**: PDFs / URLs / Google Docs → extract text → chunk → embed → store in SQLite  
+4. **Retrieve**: semantic search over embeddings + metadata filters  
+5. **Generate**: send the retrieved context to an Ollama model for grounded answers
+
+![Preview](Preview.png)
 
 ---
 
@@ -37,7 +43,7 @@ This project turns “a pile of PDFs (and links)” into a searchable, chunked k
   - Data grid with status + actions (remove/clear)
 - **SignalR** progress updates:
   - Real-time ingest status (“staged”, “processing”, “done”, “failed”)
-- **Google Drive / Docs integration** (scaffold):
+- ~~Google Drive / Docs integration~~ *(deprioritized for now):*
   - Wiring points included to fetch file content and ingest it like PDFs/URLs
 
 ---
